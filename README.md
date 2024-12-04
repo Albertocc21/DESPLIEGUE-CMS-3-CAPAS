@@ -1,7 +1,9 @@
 # DESPLIEGUE-CMS-3-CAPAS
 
-# ÍNDICE
+# Descripción de la práctica
+En esta práctica desplegaremos una infraestructura en 3 capas la cuál tendrá un servidor Apache que actuará como balanceador de carga alojado en la primera capa y estará en una red pública, en la segunda capa tendremos dos servidores backend y un servidor NFS que pertenecerán a una red privada y por último tendremos un servidor de base de datos (MariaDB o MySQL) que estará alojado en la tercera capa y que también estará en una red privada.
 
+# ÍNDICE
 
 1. **Diseño de la Infraestructura**  
    - *[Planificación de la Arquitectura](#11-planificación-de-la-arquitectura)*  
@@ -16,7 +18,7 @@
 3. **Despliegue de la infraestructura** 
    - *[Creación de la VPC](#31-creación-de-la-vpc)*  
    - *[Lanzar las instancias](#32-lanzar-las-instancias)*  
-   - *[Comprobar](#33-comprobar)*
+   - *[Comprobación](#33-comprobación)*
 
 ## 1. Diseño de la infraestructura
 
@@ -60,16 +62,11 @@
 
 ## 3. Desarrollo
 ## 3.1 Creación de la VPC.
-## 3.2 Lanzar las instancias
-## 3.3 Comprobar
-
-
 **Lo primero es crear la VPC**
 ![Captura de pantalla 2024-12-03 195724](https://github.com/user-attachments/assets/4130821c-f0c1-44b9-a89f-de5f20a37f66)
 ![Captura de pantalla 2024-12-03 195811](https://github.com/user-attachments/assets/f7123218-4aa5-49f1-89e5-8359674dc9c8)
 
-
-
+## 3.2 Lanzar las instancias
 **Ahora creamos las instancias (repetimos el mismo proceso para todas, con sus respectivas configuraciones)**
 ![Captura de pantalla 2024-12-03 200713](https://github.com/user-attachments/assets/57966129-e994-4d03-8f5c-557d11cd9ea4)
 ![Captura de pantalla 2024-12-04 121032](https://github.com/user-attachments/assets/7f16d695-08e7-4e53-acc0-56b8730bcbaf)
@@ -77,6 +74,15 @@
 ![Captura de pantalla 2024-12-04 121140](https://github.com/user-attachments/assets/5120bc18-7d64-425d-925c-1ebbde8323da)
 **Comprobamos que se crea correctamente**
 ![Captura de pantalla 2024-12-04 121246](https://github.com/user-attachments/assets/36e8cbe3-dba1-4a6d-9868-8a6260452c72)
+
+## 3.3 Comprobación
+
+
+
+
+
+
+
 
 
 
