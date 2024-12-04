@@ -3,7 +3,7 @@
 # Descripción de la práctica
 En esta práctica desplegaremos una infraestructura en 3 capas la cuál tendrá un servidor Apache que actuará como balanceador de carga alojado en la primera capa y estará en una red pública, en la segunda capa tendremos dos servidores backend y un servidor NFS que pertenecerán a una red privada y por último tendremos un servidor de base de datos (MariaDB o MySQL) que estará alojado en la tercera capa y que también estará en una red privada.
 
-# ÍNDICE
+# Índice
 
 1. **Diseño de la Infraestructura**  
    - *[Planificación de la Arquitectura](#11-planificación-de-la-arquitectura)*  
