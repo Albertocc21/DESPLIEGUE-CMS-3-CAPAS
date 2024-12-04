@@ -14,7 +14,9 @@
    - *[Capa 3](#23-capa-3-servidor-de-bbdd)*  
 
 3. **Despliegue de la infraestructura** 
-
+   - *[Creación de la VPC](#31-creación-de-la-vpc)*  
+   - *[Lanzar las instancias](#32-lanzar-las-instancias)*  
+   - *[Comprobar](#33-comprobar)*
 
 ## 1. Diseño de la infraestructura
 
@@ -56,10 +58,10 @@
 - **Instalar MySQL o MariaDB** en el servidor de la Capa 3 para almacenar la base de datos de WordPress.
 - **Configurar el acceso** para que solo los servidores de la Capa 2 puedan interactuar con la base de datos.
 
-### 3. Desarrollo
-- **Crear la VPC.**
-- **Lanzar las instancias**
-- **Comprobar**
+## 3. Desarrollo
+## 3.1 Creación de la VPC.
+## 3.2 Lanzar las instancias
+## 3.3 Comprobar
 
 
 **Lo primero es crear la VPC**
