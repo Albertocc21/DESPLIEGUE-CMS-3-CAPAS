@@ -69,7 +69,7 @@ En esta práctica desplegaremos una infraestructura en 3 capas la cuál tendrá 
 ## 3.2 Lanzar las instancias
 **Ahora creamos las instancias (repetimos el mismo proceso para todas, con sus respectivas configuraciones)**
 ![Captura de pantalla 2024-12-03 200713](https://github.com/user-attachments/assets/57966129-e994-4d03-8f5c-557d11cd9ea4)
-![Captura de pantalla 2024-12-04 121032](https://github.com/user-attachments/assets/7f16d695-08e7-4e53-acc0-56b8730bcbaf)
+![Captura de pantalla 2024-12-04 162911](https://github.com/user-attachments/assets/3c901723-e880-4f23-acee-fd9db75d5098)
 ![Captura de pantalla 2024-12-04 121107](https://github.com/user-attachments/assets/4b6cbf1c-fd5f-4df7-a8a7-bfcbcf30a881)
 ![Captura de pantalla 2024-12-04 121140](https://github.com/user-attachments/assets/5120bc18-7d64-425d-925c-1ebbde8323da)
 **Comprobamos que se crea correctamente**
