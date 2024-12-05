@@ -24,6 +24,7 @@ En esta práctica desplegaremos una infraestructura en 3 capas la cuál tendrá 
    - *[Lanzar las instancias](#32-lanzar-las-instancias)*
    - *[Configurar grupos de seguridad](#33-configurar-grupos-de-seguridad)*
    - *[Configurar las máquinas](#34-configurar-las-máquinas)*
+   - *[Sitio seguro](#35-sitio-seguro)*
 
 ## 1. Diseño de la infraestructura
 
@@ -111,6 +112,7 @@ Una vez asignada, buscamos en el navegador http://dirección-elástica y procede
 
 Una vez instalado Wordpress pasamos a estabecer el sitio seguro.
 
+### 3.5 Sitio seguro
 **Crear dominio e instalar certificado para ese dominio**
 
 Para que nuestra página sea segura tenemos que instalar un certificado ssl para un dominio que crearemos y que le asignaremos la ip elástica
