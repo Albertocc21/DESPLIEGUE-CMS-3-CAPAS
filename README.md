@@ -149,6 +149,92 @@ chown -R www-data:www-data /var/nfs/shared/*: cambia el propietario de los direc
 systemctl restart nfs-kernel-server: reinicia el servicio de NFS para aplicar los cambios
 
 #### WEBS
+```bash
+apt update -y
+apt install apache2 -y 
+apt install nfs-common -y
+apt install php libapache2-mod-php php-mysql php-curl php-gd php-xml php-mbstring php-xmlrpc php-zip php-soap php -y
+a2enmod rewrite
+sudo sed -i 's|DocumentRoot .*|DocumentRoot /nfs/shared/wordpress|g' /etc/apache2/sites-available/000-default.conf
+sed -i '/<\/VirtualHost>/i \
+<Directory /nfs/shared/wordpress>\
+    Options Indexes FollowSymLinks\
+    AllowOverride All\
+    Require all granted\
+</Directory>' /etc/apache2/sites-available/000-default.conf
+cp /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/websv.conf
+mkdir -p /nfs/shared
+mount 192.168.50.135:/var/nfs/shared /nfs/shared
+a2dissite 000-default.conf
+a2ensite websv.conf
+echo "192.168.50.135:/var/nfs/shared /nfs/shared nfs auto,nofail,noatime,nolock,intr,tcp,actimeo=1800 0 0" | sudo tee -a /etc/fstab
+mount -a
+systemctl restart apache2
+systemctl reload apache2
+systemctl status apache2
+```
+apt update -y: actualiza la lista de paquetes.
+
+apt install apache2 -y: instala Apache.
+
+apt install nfs-common -y: instala el cliente NFS.
+
+apt install php libapache2-mod-php php-mysql php-curl php-gd php-xml php-mbstring php-xmlrpc php-zip php-soap php -y: instala PHP y las extensiones necesarias para WordPress:
+
+php-mysql: comunicación con la base de datos MySQL.
+
+php-curl: permite realizar peticiones HTTP desde PHP.
+
+php-gd: manipulación de imágenes.
+
+php-xml y php-xmlrpc: gestión de datos en XML.
+
+php-mbstring: manejo de cadenas de caracteres multibyte.
+
+php-zip: trabajo con archivos comprimidos.
+
+php-soap: protocolo SOAP.
+
+libapache2-mod-php: integra PHP con Apache.
+
+a2enmod rewrite: habilita el módulo para que WordPress maneje enlaces amigables.
+
+sudo sed -i 's|DocumentRoot .*|DocumentRoot /nfs/shared/wordpress|g' /etc/apache2/sites-available/000-default.conf: modifica el archivo por defecto para que la raíz apunte al directorio compartido NFS donde está wordpress.
+
+sed -i '/<\/VirtualHost>/i \
+<Directory /nfs/shared/wordpress>\
+    Options Indexes FollowSymLinks\
+    AllowOverride All\
+    Require all granted\
+</Directory>' /etc/apache2/sites-available/000-default.conf: inserta directivas necesarias para configurar permisos de acceso y habilitar el uso de archivos .htaccess en el directorio /nfs/shared/wordpress:
+
+Options Indexes FollowSymLinks: Permite listar directorios y seguir enlaces simbólicos.
+
+AllowOverride All: Permite que WordPress utilice .htaccess para personalizar configuraciones.
+
+Require all granted: Da acceso a todos los usuarios.
+
+cp /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/websv.conf: copia el sitio por defecto y crea uno nuevo.
+
+mkdir -p /nfs/shared: crea el directorio /nfs/shared.
+
+mount 192.168.50.135:/var/nfs/shared /nfs/shared: monta el directorio del servidos NFS en el directorio local.
+
+a2dissite 000-default.conf: deshabilita el archivo por defecto.
+
+a2ensite websv.conf: habilita el arcivo creado.
+
+echo "192.168.50.135:/var/nfs/shared /nfs/shared nfs auto,nofail,noatime,nolock,intr,tcp,actimeo=1800 0 0" | sudo tee -a /etc/fstab: manda la línea echo al fichero /etc/fstab.
+
+mount -a: monta los recursos definido en /etc/fstab.
+
+systemctl restart apache2: reinicia Apache
+
+systemctl reload apache2: recarga Apache
+
+systemctl status apache2: muestra el estado de Apache
+
+#### SQL
 
 
 ## 2. Servicios necesarios
