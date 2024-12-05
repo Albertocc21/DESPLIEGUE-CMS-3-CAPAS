@@ -1,5 +1,9 @@
 # DESPLIEGUE-CMS-3-CAPAS
 
+# REQUISITOS
+- Cuenta en AWS
+- Conexión SSH
+
 # Descripción de la práctica
 En esta práctica desplegaremos una infraestructura en 3 capas la cuál tendrá un servidor Apache que actuará como balanceador de carga alojado en la primera capa y estará en una red pública, en la segunda capa tendremos dos servidores backend y un servidor NFS que pertenecerán a una red privada y por último tendremos un servidor de base de datos (MariaDB o MySQL) que estará alojado en la tercera capa y que también estará en una red privada.
 
@@ -18,7 +22,8 @@ En esta práctica desplegaremos una infraestructura en 3 capas la cuál tendrá 
 3. **Despliegue de la infraestructura** 
    - *[Creación de la VPC](#31-creación-de-la-vpc)*  
    - *[Lanzar las instancias](#32-lanzar-las-instancias)*
-   - *[Configurar las máquinas](#33-configurar-las-máquinas)*
+   - *[Configurar grupos de seguridad](#33-configurar-grupos-de-seguridad)*
+   - *[Configurar las máquinas](#34-configurar-las-máquinas)*
 
 ## 1. Diseño de la infraestructura
 
@@ -75,8 +80,24 @@ En esta práctica desplegaremos una infraestructura en 3 capas la cuál tendrá 
 **Comprobamos que se crea correctamente**
 ![Captura de pantalla 2024-12-04 121246](https://github.com/user-attachments/assets/36e8cbe3-dba1-4a6d-9868-8a6260452c72)
 
-### 3.3 Configurar las máquinas
-Una vez ya creadas todas las instancias, ejecutamos los scripts de aprovisionamientos y pasamos a la instalación de Wordpress
+### 3.3 Configurar grupos de seguridad
+Cada grupo de seguridad debe tener unas restricciones:
+
+**GRUPO DE SEGURIDAD DE BALANCEADOR**
+![Captura de pantalla 2024-12-05 183053](https://github.com/user-attachments/assets/ca1fd440-0efc-4ed7-a040-9102efc3a8bf)
+
+**GRUPOS DE SEGURIDAD NFS**
+![image](https://github.com/user-attachments/assets/20a910f2-dab5-468a-a078-30609fc6d407)
+
+**GRUPOS DE SEGURIDAD DE LOS WEBS**
+![Captura de pantalla 2024-12-05 183259](https://github.com/user-attachments/assets/882610ee-e0c2-43ce-b6c8-8e59099f2a61)
+
+**GRUPOS DE SEGURIDAD DEL SQGB**
+![Captura de pantalla 2024-12-05 183506](https://github.com/user-attachments/assets/b1eab736-1708-4540-98c3-d88713d9d36a)
+
+
+### 3.4 Configurar las máquinas
+Una vez ya creadas todas las instancias, **_ejecutamos los scripts de aprovisionamientos y pasamos a la instalación de Wordpress_**
 
 Para ello a la instancia del balanceador le tenemos que asignar una dirección ip elástica a través de la cuál accederemos a la página.
 
@@ -101,5 +122,6 @@ Para el sitio seguro debemos de ejecutar los siguientes comandos:
 sudo apt install certbot python3-certbot-apache -y
 sudo certbot
 ```
-Una vez hecho esto, podemos probar a entrar en nuestra página con https://dirección-ip-elástica
+**Una vez hecho esto, podemos probar a entrar en nuestra página con https://dirección-ip-elástica**
 
+![Captura de pantalla 2024-12-05 181746](https://github.com/user-attachments/assets/09277ad8-e8ea-4942-9e15-a0d7dca2040d)
