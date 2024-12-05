@@ -47,6 +47,40 @@ En esta práctica desplegaremos una infraestructura en 3 capas la cuál tendrá 
 ### 1.3 Scripts de aprovisionamiento
 - Crear un script que automatice el la instalación de servicios para cada máquina.
 
+#### BALANCEADOR
+```bash
+apt update -y
+apt install -y apache2
+a2enmod proxy
+a2enmod proxy_http
+a2enmod proxy_balancer
+a2enmod lbmethod_byrequests
+cp /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/load-balancer.conf
+sed -i '/DocumentRoot \/var\/www\/html/s/^/#/' /etc/apache2/sites-available/load-balancer.conf
+sed -i '/:warn/ a \<Proxy balancer://mycluster>\n    # Server 1\n    BalancerMember http://192.168.50.134\n    # Server 2\n    BalancerMember http://192.168.50.133\n</Proxy>\nProxyPass / balancer://mycluster/' /etc/apache2/sites-available/load-balancer.conf
+a2ensite load-balancer.conf
+a2dissite 000-default.conf
+systemctl restart apache2
+systemctl reload apache2
+```
+apt update -y: actualiza los paquetes automáticamente
+apt install -y apache2: instala Apache de manera automática
+a2enmod proxy: habilita el módulo proxy que permite redirigir solicitudes HTTP
+a2enmod proxy_http: habilita el módulo proxy que permite redirigir solicitudes HTTP a servidores backend
+a2enmod proxy_balancer: habilita el módulo que permite que Apache funcione con balanceador
+a2enmod lbmethod_byrequests: habilita el módulo que distribuye de manera equitativa entre los servidores backend
+cp /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/load-balancer.conf: copia el archivo por defecto de Apache
+sed -i '/DocumentRoot \/var\/www\/html/s/^/#/' /etc/apache2/sites-available/load-balancer.conf: desactiva la configuración de la raíz de documentos estática del servidor web.
+sed -i '/:warn/ a \<Proxy balancer://mycluster>\n    # Server 1\n    BalancerMember http://192.168.50.134\n    # Server 2\n    BalancerMember http://192.168.50.133\n</Proxy>\nProxyPass / balancer://mycluster/' /etc/apache2/sites-available/load-balancer.conf: inserta las configuraciones necesarias en el archivo copiado, define un grupo donde están los servidores backend y las solicitudes se redirigen al grupo usando ProxyPass
+a2ensite load-balancer.conf: habilita el fichero que hemos copiado
+a2dissite 000-default.conf: deshabilita el fichero por defecto
+systemctl restart apache2: reinicia Apache
+systemctl reload apache2: recarga Apache sin reiniciar el servicio por completo
+
+#### NFS
+
+
+
 
 ## 2. Servicios necesarios
 
