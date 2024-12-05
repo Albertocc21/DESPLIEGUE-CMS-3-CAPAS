@@ -17,8 +17,8 @@ En esta práctica desplegaremos una infraestructura en 3 capas la cuál tendrá 
 
 3. **Despliegue de la infraestructura** 
    - *[Creación de la VPC](#31-creación-de-la-vpc)*  
-   - *[Lanzar las instancias](#32-lanzar-las-instancias)*  
-   - *[Comprobación](#33-comprobación)*
+   - *[Lanzar las instancias](#32-lanzar-las-instancias)*
+   - *[Configurar las máquinas](#33-configurar-las-máquinas)*
 
 ## 1. Diseño de la infraestructura
 
@@ -61,12 +61,12 @@ En esta práctica desplegaremos una infraestructura en 3 capas la cuál tendrá 
 - **Configurar el acceso** para que solo los servidores de la Capa 2 puedan interactuar con la base de datos.
 
 ## 3. Desarrollo
-## 3.1 Creación de la VPC.
+### 3.1 Creación de la VPC.
 **Lo primero es crear la VPC**
-![Captura de pantalla 2024-12-03 195724](https://github.com/user-attachments/assets/4130821c-f0c1-44b9-a89f-de5f20a37f66)
+![Captura de pantalla 2024-12-05 171813](https://github.com/user-attachments/assets/c2426a88-2c17-4f32-bd77-9fcfdf1cc444)
 ![Captura de pantalla 2024-12-03 195811](https://github.com/user-attachments/assets/f7123218-4aa5-49f1-89e5-8359674dc9c8)
 
-## 3.2 Lanzar las instancias
+### 3.2 Lanzar las instancias
 **Ahora creamos las instancias (repetimos el mismo proceso para todas, con sus respectivas configuraciones)**
 ![Captura de pantalla 2024-12-03 200713](https://github.com/user-attachments/assets/57966129-e994-4d03-8f5c-557d11cd9ea4)
 ![Captura de pantalla 2024-12-04 162911](https://github.com/user-attachments/assets/3c901723-e880-4f23-acee-fd9db75d5098)
@@ -75,18 +75,31 @@ En esta práctica desplegaremos una infraestructura en 3 capas la cuál tendrá 
 **Comprobamos que se crea correctamente**
 ![Captura de pantalla 2024-12-04 121246](https://github.com/user-attachments/assets/36e8cbe3-dba1-4a6d-9868-8a6260452c72)
 
-## 3.3 Comprobación
+### 3.3 Configurar las máquinas
+Una vez ya creadas todas las instancias, ejecutamos los scripts de aprovisionamientos y pasamos a la instalación de Wordpress
 
+Para ello a la instancia del balanceador le tenemos que asignar una dirección ip elástica a través de la cuál accederemos a la página.
 
+Una vez asignada, buscamos en el navegador http://dirección-elástica y procedemos con la instalación.
 
+![Captura de pantalla 2024-12-04 224335](https://github.com/user-attachments/assets/79804889-8f51-4042-9e1d-eedcf0db2414)
+![Captura de pantalla 2024-12-04 224449](https://github.com/user-attachments/assets/c1932781-74bb-4ac7-8032-87133a542f0d)
+![foto](https://github.com/user-attachments/assets/bf1ec192-e0cb-4f8f-9321-705fdb456f55)
+![Captura de pantalla 2024-12-05 131403](https://github.com/user-attachments/assets/f0d24867-ad41-40b1-8a78-2d01ff08a3d4)
+![Captura de pantalla 2024-12-05 131449](https://github.com/user-attachments/assets/c64e58ea-8123-43bb-a592-6bba92fc0b59)
 
+Una vez instalado Wordpress pasamos a estabecer el sitio seguro.
 
+**Crear dominio e instalar certificado para ese dominio**
 
+Para que nuestra página sea segura tenemos que instalar un certificado ssl para un dominio que crearemos y que le asignaremos la ip elástica
 
+Para ello creamos el dominio en [No IP](https://www.noip.com/es-MX/remote-access?msclkid=77fa27a2dd6a12aac4bd40f31b25bc18&utm_campaign=free-dynamic-dns&utm_medium=cpc&utm_source=bing) y le asociamos la ip elástica.
 
-
-
-
-
-
+Para el sitio seguro debemos de ejecutar los siguientes comandos:
+```bash
+sudo apt install certbot python3-certbot-apache -y
+sudo certbot
+```
+Una vez hecho esto, podemos probar a entrar en nuestra página con https://dirección-ip-elástica
 
