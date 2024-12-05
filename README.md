@@ -1,6 +1,6 @@
 # DESPLIEGUE-CMS-3-CAPAS
 
-# REQUISITOS
+# Requisitos
 - Cuenta en AWS
 - Conexión SSH
 
