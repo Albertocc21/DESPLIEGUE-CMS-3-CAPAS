@@ -64,22 +64,91 @@ systemctl restart apache2
 systemctl reload apache2
 ```
 apt update -y: actualiza los paquetes automáticamente
+
 apt install -y apache2: instala Apache de manera automática
+
 a2enmod proxy: habilita el módulo proxy que permite redirigir solicitudes HTTP
+
 a2enmod proxy_http: habilita el módulo proxy que permite redirigir solicitudes HTTP a servidores backend
+
 a2enmod proxy_balancer: habilita el módulo que permite que Apache funcione con balanceador
-a2enmod lbmethod_byrequests: habilita el módulo que distribuye de manera equitativa entre los servidores backend
+
+a2enmod lbmethod_byrequests: habilita el módulo que distribuye de manera equitativa entre los 
+servidores backend
+
 cp /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/load-balancer.conf: copia el archivo por defecto de Apache
+
 sed -i '/DocumentRoot \/var\/www\/html/s/^/#/' /etc/apache2/sites-available/load-balancer.conf: desactiva la configuración de la raíz de documentos estática del servidor web.
+
 sed -i '/:warn/ a \<Proxy balancer://mycluster>\n    # Server 1\n    BalancerMember http://192.168.50.134\n    # Server 2\n    BalancerMember http://192.168.50.133\n</Proxy>\nProxyPass / balancer://mycluster/' /etc/apache2/sites-available/load-balancer.conf: inserta las configuraciones necesarias en el archivo copiado, define un grupo donde están los servidores backend y las solicitudes se redirigen al grupo usando ProxyPass
+
 a2ensite load-balancer.conf: habilita el fichero que hemos copiado
+
 a2dissite 000-default.conf: deshabilita el fichero por defecto
+
 systemctl restart apache2: reinicia Apache
+
 systemctl reload apache2: recarga Apache sin reiniciar el servicio por completo
 
 #### NFS
+```bash
+apt update -y
+apt install nfs-kernel-server -y
+apt install unzip -y
+apt install curl -y
+apt install php php-mysql -y
+apt install mysql-client -y
+mkdir /var/nfs/shared -p
+chown -R nobody:nogroup /var/nfs/shared
+sed -i '$a /var/nfs/shared    192.168.50.134(rw,sync,no_subtree_check)' /etc/exports
+sed -i '$a /var/nfs/shared    192.168.50.133(rw,sync,no_subtree_check)' /etc/exports
+curl -O https://wordpress.org/latest.zip
+unzip -o latest.zip -d /var/nfs/shared/
+chmod 755 -R /var/nfs/shared/
+chown -R www-data:www-data /var/nfs/shared/*
+systemctl restart nfs-kernel-server
+```
+apt update -y: actualiza la lista de paquetes automáticamente 
 
+apt install nfs-kernel-server -y: isntala el servidor NFS confirmando cualquier pregunta 
 
+apt install unzip -y: instala la herramienta unzip, que descomprimirá el archivo de Wordpress
+
+apt install curl -y: instala la herramienta curl usada para descargar archivos de internet
+
+apt install php php-mysql -y: instala PHP y la extensión MySQL para que PHP interactúe con MySQL
+
+apt install mysql-client -y: instala el cliente de MySQL que permite conectarse a servidores de bases de datos MySQL
+
+mkdir /var/nfs/shared -p: crea el directorio que será compartido a través de NFS
+
+chown -R nobody:nogroup /var/nfs/shared: cambia el propietario del directorio
+
+sed -i '$a /var/nfs/shared    192.168.50.134(rw,sync,no_subtree_check)' /etc/exports: agrega una línea al archivo para que el directorio creado sea accesible con el servidor que tiene esa ip con permisos: 
+
+rw: Lectura y escritura.
+
+sync: Las operaciones de escritura se realizan de forma sincronizada.
+
+no_subtree_check: Mejora el rendimiento y evita problemas con verificaciones innecesarias.
+
+sed -i '$a /var/nfs/shared    192.168.50.133(rw,sync,no_subtree_check)' /etc/exports: lo mismo que antes pero para el otro servidor.
+
+curl -O https://wordpress.org/latest.zip: descarga la última versión de Wordpress en formato comprimido.
+
+unzip -o latest.zip -d /var/nfs/shared/: descomprime el archivo descargado.
+
+chmod 755 -R /var/nfs/shared/: cambia los permisos al directorio y su contenido:
+
+Lectura,escritura,ejecución para el propietario
+
+Lectura y ejecución para el grupo y otros
+
+chown -R www-data:www-data /var/nfs/shared/*: cambia el propietario de los directorios y de los archivos que hay dentro del direcotio /var/nfs/shared 
+
+systemctl restart nfs-kernel-server: reinicia el servicio de NFS para aplicar los cambios
+
+#### WEBS
 
 
 ## 2. Servicios necesarios
